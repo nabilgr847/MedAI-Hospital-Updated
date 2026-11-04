@@ -1,0 +1,61 @@
+services:
+  - type: web
+    name: medai-hospital-v2-api
+    runtime: node
+    rootDir: apps/api
+    plan: starter # persistent disks need a paid plan; without a disk uploaded files are lost on every deploy
+    buildCommand: apt-get update && apt-get install -y poppler-utils && npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: medai-private-uploads
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_SECURE
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: APP_PUBLIC_URL
+        sync: false
+      - key: PRESCRIPTION_SIGNING_PRIVATE_KEY_BASE64
+        sync: false
+      - key: PRESCRIPTION_SIGNING_PUBLIC_KEY_BASE64
+        sync: false
+  - type: web
+    name: medai-hospital-v2-web
+    runtime: static
+    rootDir: apps/web
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite # lets /reset-password (email link) load the single-page app
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false

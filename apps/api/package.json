@@ -1,0 +1,29 @@
+{
+  "name": "medai-hospital-v2-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "generate-signing-keys": "node ../../scripts/generate-prescription-signing-keys.js",
+    "test": "node --test ../../tests/util.test.js ../../tests/crypto-signing-smoke.test.js ../../tests/report-rules.test.js ../../tests/file-storage.test.js ../../tests/medicine-template.test.js",
+    "test:crypto": "node --test ../../tests/crypto-signing-smoke.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "zod": "^3.24.1",
+    "nodemailer": "^6.9.16",
+    "pdf-parse": "^1.1.1",
+    "tesseract.js": "^5.1.1",
+    "pdfkit": "^0.16.0"
+  }
+}
